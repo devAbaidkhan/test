@@ -8,7 +8,8 @@ Route::group(['namespace'=>'Resturant', 'prefix'=>'restaurant',], function () {
 });
     Route::group(['namespace'=>'Resturant', 'prefix'=>'restaurant','middleware'=>'session.check'], function () {
         
-        
+
+
         Route::get('index', 'HomeController@vendorIndex')->name('resturant-index');
         Route::get('complete_order_index', 'HomeController@complete_order')->name('complete_order_index');
         //Vendor logout

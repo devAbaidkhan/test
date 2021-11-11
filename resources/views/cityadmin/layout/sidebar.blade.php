@@ -81,7 +81,7 @@
  					</div>
 
 					 <div class="menu-item">
- 						<a href="{{route('campaign.index')}}" class="menu-link">
+ 						<a href="{{url('franchise-admin/packages')}}" class="menu-link">
  							<span class="menu-icon"><i class="fa fa-users"></i></span>
  							<span class="menu-text">Packages</span>
  						</a>

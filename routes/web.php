@@ -53,3 +53,7 @@ require __DIR__.'/ordertaker.php';
 //* Order Taker Routes
 */
 require __DIR__.'/delivery_boy.php';
+/*
+//* Offers and Packages
+*/
+require __DIR__.'/packages/packages.php';
