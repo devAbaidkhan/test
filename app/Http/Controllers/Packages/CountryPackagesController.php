@@ -24,13 +24,7 @@ class CountryPackagesController extends Controller
             ->where('cityadmin_email', $cityadmin_email)
             ->first();
             $country=   Session::get('franchise_admin')->country;
-            $cityfranchises= DB::table('cityadmin')
-                ->select('cityadmin.*', 'roles.name AS role_name')
-                ->leftJoin('roles', 'cityadmin.role_id', '=', 'roles.id')
-                ->where('cityadmin.country', $country)
-                ->whereNotNull('city')
-                ->orderBy('cityadmin_id', 'desc')
-                ->paginate(10);
+            $packages= DB::table('packages')->paginate(10);
 
         return view('packages.country-packages.browse',get_defined_vars());
     }
@@ -60,7 +54,29 @@ class CountryPackagesController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->name);
+        $this->validate($request, [
+            'name' => 'required',
+            'type' => 'required',
+            'order_quantity' => 'required',
+            'days' => 'required',
+            'price' => 'required',
+            'dinein' => 'required',
+            'delivery' => 'required',
+            'take_away' => 'required',
+        ]);
+
+
+        DB::table("packages")
+            ->insert([
+                'name' => $request->name,
+                'type' => $request->type,
+                'orders_quantity' => $request->order_quantity,
+                'days' => $request->days,
+                'price' => $request->price,
+                'dinein' => $request->dinein,
+            ]);
+
+        return redirect('franchise-admin/packages');
     }
 
     /**
@@ -82,7 +98,7 @@ class CountryPackagesController extends Controller
      */
     public function edit($id)
     {
-        //
+        dd($id);
     }
 
     /**

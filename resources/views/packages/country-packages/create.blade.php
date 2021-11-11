@@ -167,10 +167,10 @@
             </div>
             <div class="row" style="text-align: right">
               <div class="col-md-12">
-                <input type="hidden" name="dialling_code" id="dialling_code" value="{{ Session::get("franchise_admin")->dialling_code }}">
-                <input type="hidden" name="cca3" id="cca3" value="{{ Session::get("franchise_admin")->cca3 }}">
-                <input type="hidden" name="timezone" id="timezone" value="{{ Session::get("franchise_admin")->timezone }}">
-                <button type="submit" class="btn btn-success mr-2">Submit</button>
+{{--                <input type="hidden" name="dialling_code" id="dialling_code" value="{{ Session::get("franchise_admin")->dialling_code }}">--}}
+{{--                <input type="hidden" name="cca3" id="cca3" value="{{ Session::get("franchise_admin")->cca3 }}">--}}
+{{--                <input type="hidden" name="timezone" id="timezone" value="{{ Session::get("franchise_admin")->timezone }}">--}}
+                <button type="submit" class="btn btn-success submit mr-2">Submit</button>
               </div>
             </div>
 
@@ -205,6 +205,19 @@
   $(document).ready(function () {
     $('.select2').select2();
 
+    $('form').on('submit',function (){
+
+      $('.submit').prop('disabled',true)
+
+      $('input[type=checkbox]').each(function (){
+
+        if( $(this).prop('checked') === true){
+          $(this).val(1)
+        }else {
+          $(this).prop('checked',true);
+          $(this).val(0)
+        }
+      });
     });
   })
 </script>
