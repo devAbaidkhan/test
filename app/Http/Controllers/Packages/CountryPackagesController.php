@@ -158,7 +158,7 @@ class CountryPackagesController extends Controller
                 'take_away' => $request->take_away,
             ]);
 
-        return redirect('franchise-admin/packages');
+        return redirect('franchise-admin/packages')->with(['msg'=>'Updated Successfully..']);
     }
 
     /**
@@ -171,6 +171,6 @@ class CountryPackagesController extends Controller
     {
         $package =  Package::find($request->delete_item);
         $package->delete();
-        return redirect('franchise-admin/packages');
+        return redirect('franchise-admin/packages')->with(['msg'=>'Item  Deleted Successfully..']);
     }
 }

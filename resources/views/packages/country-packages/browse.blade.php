@@ -8,10 +8,10 @@
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">Packages List</h6>
+      <h4 class="m-0 font-weight-bold text-primary">Packages List</h4>
       @if (count($errors) > 0)
                   @if($errors->any())
-                    <div class="alert alert-primary" role="alert">
+                    <div class="alert alert-danger" role="alert">
                       {{$errors->first()}}
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">×</span>
@@ -19,6 +19,17 @@
                     </div>
                   @endif
               @endif
+
+        @if ( session()->has('msg'))
+
+                    <div class="alert alert-success" role="alert">
+                      {{session()->get('msg')}}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+              @endif
+
         <a class="btn btn-success m-auto" style="float: right;" href="{{url('franchise-admin/packages/create')}}">Create New</a>
     </div>
     <div class="card-body">
