@@ -165,22 +165,18 @@
               </div>
 
             </div>
-            <div class="row" style="text-align: right">
-              <div class="col-md-12">
-{{--                <input type="hidden" name="dialling_code" id="dialling_code" value="{{ Session::get("franchise_admin")->dialling_code }}">--}}
-{{--                <input type="hidden" name="cca3" id="cca3" value="{{ Session::get("franchise_admin")->cca3 }}">--}}
-{{--                <input type="hidden" name="timezone" id="timezone" value="{{ Session::get("franchise_admin")->timezone }}">--}}
-                <button type="submit" class="btn btn-success submit mr-2">Submit</button>
+            <div class="row" style="">
+              <div class="col-md-1">
+                <a href="{{url('franchise-admin/packages')}}" class="btn pull-left btn-light">Back</a>
+                {{--                <input type="hidden" name="dialling_code" id="dialling_code" value="{{ Session::get("franchise_admin")->dialling_code }}">--}}
+                {{--                <input type="hidden" name="cca3" id="cca3" value="{{ Session::get("franchise_admin")->cca3 }}">--}}
+                {{--                <input type="hidden" name="timezone" id="timezone" value="{{ Session::get("franchise_admin")->timezone }}">--}}
+
+              </div>
+              <div class="col-md-11 text-right" >
+                <button type="submit" class="btn btn-success pull-right submit mr-2">Submit</button>
               </div>
             </div>
-
-
-
-
-            <!--
-                    <button class="btn btn-light">Cancel</button>
-                    -->
-            <a href="{{url('franchise-admin/packages')}}" class="btn btn-light">Back</a>
           </form>
         </div>
       </div>

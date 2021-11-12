@@ -29,9 +29,9 @@
             <th>Name</th>
                 <th>Type</th>
                 <th>Orders Quantity</th>
+                <th>Delivery</th>
                 <th>Dine In</th>
                 <th>Take Away</th>
-                <th>Delivery</th>
                 <th>Price</th>
                 <th>Days</th>
                 <th>Action</th>
@@ -48,14 +48,14 @@
                   </td>
                   <td>{{$package->type}}</td>
                   <td>{{$package->orders_quantity}}</td>
+                  <td>{{($package->delivery == 0 ? 'Not Allowed':' Allowed')}}</td>
                   <td>{{($package->dinein== 0 ? 'Not Allowed':' Allowed')}}</td>
                   <td>{{($package->take_away == 0 ? 'Not Allowed':' Allowed')}}</td>
-                  <td>{{($package->delivery == 0 ? 'Not Allowed':' Allowed')}}</td>
                   <td>{{$package->price}}</td>
                   <td>{{$package->days}}</td>
                   <td>
 
-                      <a disabled href="{{--{{url('franchise-admin/packages/'.$package->id.'/edit')}}--}}" style="width: 28px; padding-left: 6px;" class="btn btn-info" style="width: 10px;padding-left: 9px;" style="color: #fff;">
+                      <a href="{{url('franchise-admin/packages/'.$package->id.'/edit')}}" style="width: 28px; padding-left: 6px;" class="btn btn-info" style="width: 10px;padding-left: 9px;" style="color: #fff;">
                           <i class="fa fa-edit" style="width: 10px;"></i>
                       </a>
 
@@ -64,7 +64,7 @@
                       <!--</a>-->
 
 
-                      <button type="button" style="width: 28px; padding-left: 6px;" class="btn btn-danger" data-toggle="modal" >
+                      <button type="button" style="width: 28px; padding-left: 6px;" deleteId="{{$package->id}}" class="btn btn-danger delete_item"  >
                           <i class="fa fa-trash"></i>
                       </button>
                   </td>
@@ -85,35 +85,31 @@
 
 </div>
 <!-- /.container-fluid -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-danger text-white" style="">
+                <h4><i class="fa fa-trash"></i> Are you want to Delete This Item..?</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <form class="forms-sample" action="{{url('franchise-admin/packages/destroy')}}" method="post"
+          enctype="multipart/form-data">
+          {{csrf_field()}}
+          {{ method_field('DELETE') }}
+            <input type="hidden" name="delete_item" id="delete_item">
+				<button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</button>
+        </form>
+			</div>
+		</div>
+	</div>
 </div>
-</div>
-{{--@foreach($cityfranchises as $cityfranchise)--}}
-{{--<!-- Modal -->--}}
-{{--<div class="modal fade" id="exampleModal{{$cityfranchise->cityadmin_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
-{{--	<div class="modal-dialog" role="document">--}}
-{{--		<div class="modal-content">--}}
-{{--			<div class="modal-header">--}}
-{{--				<h5 class="modal-title" id="exampleModalLabel">Delete cityadmin</h5>--}}
-{{--					<button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-{{--						<span aria-hidden="true">&times;</span>--}}
-{{--					</button>--}}
-{{--			</div>--}}
-{{--			<div class="modal-body">--}}
-{{--				Are you want to delete cityadmin.--}}
-{{--			</div>--}}
-{{--			<div class="modal-footer">--}}
-{{--				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
-{{--        <form class="forms-sample" action="{{route('city-franchise.destroy', $cityfranchise->cityadmin_id)}}" method="post"--}}
-{{--          enctype="multipart/form-data">--}}
-{{--          {{csrf_field()}}--}}
-{{--          {{ method_field('DELETE') }}--}}
-{{--				<button type="submit" class="btn btn-primary">Delete</button>--}}
-{{--        </form>--}}
-{{--			</div>--}}
-{{--		</div>--}}
-{{--	</div>--}}
-{{--</div>--}}
-{{--@endforeach  --}}
  
 @endsection
 
@@ -121,6 +117,11 @@
     <script>
         $(document).ready(function (){
             $('li').addClass('m-2')
+            $('.delete_item').on('click',function (){
+                let deleteId = $(this).attr('deleteId')
+                $('#delete_item').val(deleteId);
+                $('#exampleModal').modal('show')
+            })
         })
     </script>
 @endpush

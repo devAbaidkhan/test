@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Packages;
 
 use App\Http\Controllers\Controller;
+use App\Package;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,7 @@ class CountryPackagesController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, [
             'name' => 'required',
             'type' => 'required',
@@ -66,6 +68,8 @@ class CountryPackagesController extends Controller
         ]);
 
 
+
+
         DB::table("packages")
             ->insert([
                 'name' => $request->name,
@@ -74,6 +78,8 @@ class CountryPackagesController extends Controller
                 'days' => $request->days,
                 'price' => $request->price,
                 'dinein' => $request->dinein,
+                'delivery' => $request->delivery,
+                'take_away' => $request->take_away,
             ]);
 
         return redirect('franchise-admin/packages');
@@ -87,7 +93,15 @@ class CountryPackagesController extends Controller
      */
     public function show($id)
     {
-        //
+        $role=Session::get('role');
+        $cityadmin_email=Session::get('cityadmin');
+        $cityadmin=DB::table('cityadmin')
+            ->where('cityadmin_email', $cityadmin_email)
+            ->first();
+        $country=   Session::get('franchise_admin')->country;
+
+
+        return view('packages.country-packages.create',get_defined_vars());
     }
 
     /**
@@ -98,7 +112,16 @@ class CountryPackagesController extends Controller
      */
     public function edit($id)
     {
-        dd($id);
+
+        $role=Session::get('role');
+        $cityadmin_email=Session::get('cityadmin');
+        $cityadmin=DB::table('cityadmin')
+            ->where('cityadmin_email', $cityadmin_email)
+            ->first();
+        $country=   Session::get('franchise_admin')->country;
+        $package= DB::table('packages')->find($id);
+
+        return view('packages.country-packages.edit',get_defined_vars());
     }
 
     /**
@@ -110,7 +133,32 @@ class CountryPackagesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $this->validate($request, [
+            'name' => 'required',
+            'type' => 'required',
+            'order_quantity' => 'required',
+            'days' => 'required',
+            'price' => 'required',
+            'dinein' => 'required',
+            'delivery' => 'required',
+            'take_away' => 'required',
+        ]);
+
+        DB::table('packages')
+            ->where('id', $id)
+            ->update([
+                'name' => $request->name,
+                'type' => $request->type,
+                'orders_quantity' => $request->order_quantity,
+                'days' => $request->days,
+                'price' => $request->price,
+                'dinein' => $request->dinein,
+                'delivery' => $request->delivery,
+                'take_away' => $request->take_away,
+            ]);
+
+        return redirect('franchise-admin/packages');
     }
 
     /**
@@ -119,8 +167,10 @@ class CountryPackagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $package =  Package::find($request->delete_item);
+        $package->delete();
+        return redirect('franchise-admin/packages');
     }
 }

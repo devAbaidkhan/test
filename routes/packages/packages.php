@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 
-Route::group(['namespace'=>'Packages', 'prefix'=>'franchise-admin/packages'], function () {
+Route::group(['namespace'=>'Packages', 'prefix'=>'franchise-admin'], function () {
 
-    Route::resource('/', 'CountryPackagesController');
+    Route::resource('packages', 'CountryPackagesController');
 
 });
