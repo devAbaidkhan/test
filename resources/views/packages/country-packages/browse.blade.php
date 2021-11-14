@@ -8,7 +8,7 @@
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
-      <h4 class="m-0 font-weight-bold text-primary">Packages List</h4>
+      <h4 class="m-0 font-weight-bold text-primary">Packages List | {{$country}} </h4>
       @if (count($errors) > 0)
                   @if($errors->any())
                     <div class="alert alert-danger" role="alert">
@@ -39,12 +39,13 @@
             <tr>
             <th>Name</th>
                 <th>Type</th>
-                <th>Orders Quantity</th>
+                <th>Orders Qty</th>
                 <th>Delivery</th>
                 <th>Dine In</th>
                 <th>Take Away</th>
                 <th>Price</th>
                 <th>Days</th>
+                <th>Commission</th>
                 <th>Action</th>
 
             </tr>
@@ -59,11 +60,12 @@
                   </td>
                   <td>{{$package->type}}</td>
                   <td>{{$package->orders_quantity}}</td>
-                  <td>{{($package->delivery == 0 ? 'Not Allowed':' Allowed')}}</td>
-                  <td>{{($package->dinein== 0 ? 'Not Allowed':' Allowed')}}</td>
-                  <td>{{($package->take_away == 0 ? 'Not Allowed':' Allowed')}}</td>
-                  <td>{{$package->price}}</td>
+                  <td>{{($package->delivery == 0 ? 'N/A':' Allowed')}}</td>
+                  <td>{{($package->dinein== 0 ? 'N/A':' Allowed')}}</td>
+                  <td>{{($package->take_away == 0 ? 'N/A':' Allowed')}}</td>
+                  <td>{{($package->price > 0 ? $package->price:'N/A')}}</td>
                   <td>{{$package->days}}</td>
+                  <td>{{($package->commission ? $package->commission.'%':'N/A')}}</td>
                   <td>
 
                       <a href="{{url('franchise-admin/packages/'.$package->id.'/edit')}}" style="width: 28px; padding-left: 6px;" class="btn btn-info" style="width: 10px;padding-left: 9px;" style="color: #fff;">

@@ -121,7 +121,7 @@
             </div>
 
               <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label for="order_quantity">Orders Quantity</label>
                   <input type="number" required min="0" class="form-control" id="order_quantity" name="order_quantity"
@@ -129,22 +129,30 @@
                 </div>
               </div>
 
-                <div class="col-md-4">
+                <div class="col-md-6">
                 <div class="form-group">
                   <label for="days">Days Limit</label>
                   <input type="number" required  min="0" class="form-control" id="days" name="days"
                          placeholder="Enter Days">
                 </div>
               </div>
-
-                <div class="col-md-4">
+            </div>
+            <div class="row">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label for="price">Price</label>
-                  <input type="number" required min="0" class="form-control" id="price" name="price"
+                  <input type="number" disabled required min="0" class="form-control" id="price" name="price"
                          placeholder="Enter Price">
                 </div>
               </div>
 
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="price">Commission %</label>
+                  <input type="number" disabled required min="0" class="form-control" id="commission" name="commission"
+                         placeholder="Enter %">
+                </div>
+              </div>
             </div>
 
             <div class="row">
@@ -214,6 +222,28 @@
           $(this).val(0)
         }
       });
+    });
+
+    $('#type').on('change',function (){
+      let type = $(this).val()
+      console.log(type)
+      if(type === 'subscription'){
+        $('#price').prop('disabled',false)
+        $('#commission').prop('disabled',true)
+        $('#commission').val('')
+      }else if(type === 'commission'){
+        $('#price').prop('disabled',true)
+        $('#price').val('')
+        $('#commission').prop('disabled',false)
+      }else if(type === 'commission_subscription'){
+        $('#price').prop('disabled',false)
+        $('#commission').prop('disabled',false)
+
+      }else{
+        $('#price').prop('disabled',true)
+        $('#commission').prop('disabled',true)
+      }
+
     });
   })
 </script>
