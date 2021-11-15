@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Cityadmin;
 
+use App\VendorPackage;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
@@ -17,14 +19,17 @@ class vendorController extends Controller
     use SendSms;
     public function vendor(Request $request)
     {
+
         if (Session::has('cityadmin')) {
             $cityadmin_email=Session::get('cityadmin');
             $cityadmin=DB::table('cityadmin')
         ->where('cityadmin_email', $cityadmin_email)
         ->first();
             $vendor= DB::table('vendor')
+                ->leftjoin('vendor_packages', 'vendor.vendor_id', '=', 'vendor_packages.vendor_id')
         ->where('cityadmin_id', $cityadmin->cityadmin_id)
         ->get();
+            dd($vendor);
             return view('cityadmin.vendor.vendor', compact("cityadmin_email", "vendor", "cityadmin"));
         } else {
             return redirect()->route('cityadminlogin')->withErrors('please login first');
@@ -33,12 +38,14 @@ class vendorController extends Controller
     
     public function Addvendor(Request $request)
     {
+
         if (Session::has('cityadmin')) {
             $cityadmin_email=Session::get('cityadmin');
             $cityadmin=DB::table('cityadmin')
         ->where('cityadmin_email', $cityadmin_email)
         ->first();
-        
+            $packages= DB::table('packages')->where('country',$cityadmin->country)->orderBy('id','desc')->paginate(10);
+
             $vendor_category = DB::table('vendor_category')
                             ->get();
             $map1 = DB::table('map_API')
@@ -53,7 +60,7 @@ class vendorController extends Controller
 
 
         
-            return view('cityadmin.vendor.addvendor', compact("cityadmin_email", "cityadmin", "vendor_category", "map1", "mapset", "mapbox", "ui", "map"));
+            return view('cityadmin.vendor.addvendor', compact("cityadmin_email", "cityadmin", "vendor_category", "map1", "mapset", "mapbox", "ui", "map",'packages'));
         } else {
             return redirect()->route('cityadminlogin')->withErrors('please login first');
         }
@@ -78,6 +85,9 @@ class vendorController extends Controller
                
 
            ]);
+
+
+
         if (Session::has('cityadmin')) {
             $logo = DB::table('logo')
                 ->where('logo_id', '1')
@@ -142,7 +152,8 @@ class vendorController extends Controller
                // $vendor_image->move('partners/images/'.$date.'/', $fileName);
                // decode the base64 file
                $file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->vendor_image));
-               file_put_contents('partners/images/'. $fileName, $file);
+               //todo :  remove this comment in live
+//               file_put_contents('partners/images/'. $fileName, $file);
               
                 $vendor_image = 'partners/images/'.$fileName;
             } else {
@@ -155,7 +166,7 @@ class vendorController extends Controller
                // $main_image->move('partners/images/'.$date.'/', $fileName);
                
                $file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->main_image));
-               file_put_contents('partners/images/'. $fileName, $file);
+//               file_put_contents('partners/images/'. $fileName, $file);
                 $main_image = 'partners/images/'.$fileName;
             } else {
                 $main_image=null;
@@ -166,10 +177,37 @@ class vendorController extends Controller
             } else {
                 $new_pass=Hash::make($password);
                 $insert = DB::table('vendor')
-                  ->insertGetId(['cityadmin_id'=>$cityadmin_id,'vendor_name'=>$vendor_name,'vendor_logo'=>$vendor_image,
-                  'main_image'=>$main_image,
-                  'vendor_email'=> $vendor_email,'vendor_phone'=> $vendor_phone, 'vendor_pass'=>$new_pass,'vendor_loc'=>$address,'physical_address'=>$request->physical_address,'lat'=>$lat,'lng'=>$lng,'opening_time'=>$opening_time, 'closing_time'=>$closing_time,'owner'=>$owner, 'created_at'=>$created_at,'comission'=>$discount,'vendor_category_id'=>$vendor_category_id,'delivery_range'=>$range,'ui_type'=>$ui_type,'online_status'=>'ON','slug'=>$slug,'avg_cost_meal'=>$request->avg_cost_meal]);
-                
+                  ->insertGetId(['cityadmin_id'=>$cityadmin_id,
+                      'vendor_name'=>$vendor_name,
+                      'vendor_logo'=>$vendor_image,
+                      'main_image'=>$main_image,
+                      'vendor_email'=> $vendor_email,
+                      'vendor_phone'=> $vendor_phone,
+                      'vendor_pass'=>$new_pass,
+                      'vendor_loc'=>$address,
+                      'physical_address'=>$request->physical_address,
+                      'lat'=>$lat,'lng'=>$lng,
+                      'opening_time'=>$opening_time,
+                      'closing_time'=>$closing_time,
+                      'owner'=>$owner,
+                      'created_at'=>$created_at,
+                      'comission'=>$discount,
+                      'vendor_category_id'=>$vendor_category_id,
+                      'delivery_range'=>$range,
+                      'ui_type'=>$ui_type,
+                      'online_status'=>'ON',
+                      'slug'=>$slug,
+                      'avg_cost_meal'=>$request->avg_cost_meal
+                  ]);
+
+                if (isset($request->package)){
+                    $pkg = new VendorPackage();
+                    $pkg->vendor_id = $insert;
+                    $pkg->package_id = $request->package;
+                    $pkg->status  = 'active';
+                    $pkg->activation_date  = Carbon::now();
+                    $pkg->save();
+                }
     
                 $time = DB::table('time_slot')->insert(['vendor_id'=>$insert,'open_hour'=>$opening_time,'close_hour'=>$closing_time,'time_slot'=>60]);
                 //  $welcomeMail = $this->payoutMail($vendor_name,$vendor_email,$app_name,$password);

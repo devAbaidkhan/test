@@ -95,16 +95,31 @@
             <!--       </select>-->
             <!--       </div>-->
 
-            <div class="form-group">
-              <label for="exampleFormControlSelect3">Partner Category</label>
-              <select class="form-control form-control-sm" id="exampleFormControlSelect3 " name="vendor_category_id">
-                @foreach($vendor_category as $category)
-                <option value="{{$category->vendor_category_id}}">{{$category->category_name}}</option>
-                @endforeach
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleFormControlSelect3">Partner Category</label>
+                    <select class="form-control form-control-sm" id="exampleFormControlSelect3 " name="vendor_category_id">
+                      @foreach($vendor_category as $category)
+                        <option value="{{$category->vendor_category_id}}">{{$category->category_name}}</option>
+                      @endforeach
 
 
-              </select>
-            </div>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="exampleFormControlSelect3">Available Packages</label>
+                  <select class="form-control form-control-sm" required id="package " name="package">
+                    <option selected disabled value="">-Select One-</option>
+                    @foreach($packages as $package)
+                      <option value="{{$package->id}}">{{$package->name}}</option>
+                    @endforeach
+
+
+                  </select>
+                </div>
+              </div>
 
             <div class="form-group">
               <label for="vendor_name">Partner Name</label>
@@ -280,6 +295,10 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
+
+    $('select2').select2()
+
+
     var rawImg1;
     $image_crop = $('#vendor_image_demo').croppie({
       enableExif: true,
