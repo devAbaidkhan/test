@@ -59,7 +59,9 @@
               <td>{{$vendors[0]->owner}}</td>
               <td>{{$vendors[0]->vendor_phone}}</td>
               <td>{{$vendors[0]->vendor_email}}</td>
-              <td > {{count($vendors->where('vend_id','!=',null))}} </td>
+              <td class="text-center" > <span style="cursor: pointer" class="badge badge-{{(count($vendors->where('vend_id','!=',null)) == 0 ? 'warning':'primary ')}} package" vendors="{{json_encode($vendors)}}">
+                  {{count($vendors->where('vend_id','!=',null))}}
+                </span> </td>
               <td align="center"><img src="{{asset($vendors[0]->vendor_logo)}}" style="width: 21px;"></td>
               <td>
                 @if(permission('partner-secret-login'))
@@ -103,6 +105,44 @@
 <!-- /.container-fluid -->
 </div>
 </div>
+
+<div class="modal fade" id="modal_package" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h3 class="modal-title" id="exampleModalLabel">Subscribed Packages</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Orders</th>
+              <th>Price</th>
+              <th>Action</th>
+
+            </tr>
+            </thead>
+
+            <tbody id="modal-pkg-list">
+
+            </tbody>
+          </table>
+        </div>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+{{--        <a href="" class="btn btn-primary">Delete</a>--}}
+      </div>
+    </div>
+  </div>
+</div>
+
 @foreach($vendor as $key => $vendors)
 <!-- Modal -->
 <div class="modal fade" id="exampleModal{{$key}}" tabindex="-1" role="dialog"
@@ -127,3 +167,35 @@
 </div>
 @endforeach
 @endsection
+
+@push('js')
+
+
+  <script>
+    $(document).ready(function (){
+
+      $('.package').on('click',function (){
+        $('#modal_package').modal('show')
+        let vendors = JSON.parse($(this).attr('vendors'))
+        console.log(vendors)
+        $('#modal-pkg-list').empty()
+        $.each(vendors,function (i,package){
+
+          if(package.vend_id)
+          {
+            $('#modal-pkg-list').append('' +
+                    '  <tr>' +
+                    ' <td>'+package.name+'</td>' +
+                    '<td>'+package.type+'</td>' +
+                    '<td>'+package.orders_quantity+'</td>' +
+                    '<td>'+package.price+'</td>' +
+                    '<td>   <button type="button" style="width: 28px; padding-left: 6px;" class="btn btn-danger"  > <i class="fa fa-trash"></i> </button></td>' +
+                    '</tr>')
+          }
+        })
+
+
+      })
+    })
+  </script>
+@endpush
