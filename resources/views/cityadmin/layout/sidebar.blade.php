@@ -98,6 +98,12 @@
  							<span class="menu-text">Partners</span>
  						</a>
  					</div>
+					<div class="menu-item">
+ 						<a href="{{url('/franchise-admin/partner/packages/create')}}" class="menu-link">
+ 							<span class="menu-icon"><i class="fa fa-users"></i></span>
+ 							<span class="menu-text">Partners Packages</span>
+ 						</a>
+ 					</div>
  					@endif
 					 @endif
 

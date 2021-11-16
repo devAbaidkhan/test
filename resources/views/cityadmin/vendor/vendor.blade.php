@@ -43,6 +43,7 @@
               <th>Owner Name</th>
               <th>Mobile</th>
               <th>Email</th>
+              <th>Active Packages</th>
               <th>logo</th>
               <th>Action</th>
             </tr>
@@ -54,28 +55,29 @@
             @foreach($vendor as $vendors)
             <tr>
               <td>{{$i}}</td>
-              <td>{{$vendors->vendor_name}}</td>
-              <td>{{$vendors->owner}}</td>
-              <td>{{$vendors->vendor_phone}}</td>
-              <td>{{$vendors->vendor_email}}</td>
-              <td align="center"><img src="{{asset($vendors->vendor_logo)}}" style="width: 21px;"></td>
+              <td>{{$vendors[0]->vendor_name}}</td>
+              <td>{{$vendors[0]->owner}}</td>
+              <td>{{$vendors[0]->vendor_phone}}</td>
+              <td>{{$vendors[0]->vendor_email}}</td>
+              <td > {{count($vendors->where('vend_id','!=',null))}} </td>
+              <td align="center"><img src="{{asset($vendors[0]->vendor_logo)}}" style="width: 21px;"></td>
               <td>
                 @if(permission('partner-secret-login'))
-                <a href="{{route('vendorsecretlogin',$vendors->vendor_id)}}"
+                <a href="{{route('vendorsecretlogin',$vendors[0]->vendor_id)}}"
                   style="width: 28px; padding-left: 6px;background-color:#000;border-color:#000;" class="btn btn-info"
                   style="width: 10px;padding-left: 9px;" style="color: #fff;">
                   <i class="fa fa-user-secret" style="width: 10px;"></i>
                 </a>
                 @endif
                 @if(permission('update-partner'))
-                <a href="{{route('edit-vendor',$vendors->vendor_id)}}" style="width: 28px; padding-left: 6px;"
+                <a href="{{route('edit-vendor',$vendors[0]->vendor_id)}}" style="width: 28px; padding-left: 6px;"
                   class="btn btn-info" style="width: 10px;padding-left: 9px;" style="color: #fff;">
                   <i class="fa fa-edit" style="width: 10px;"></i>
                 </a>
                 @endif
                 @if(permission('delete-partner'))
                 <button type="button" style="width: 28px; padding-left: 6px;" class="btn btn-danger" data-toggle="modal"
-                  data-target="#exampleModal{{$vendors->vendor_id}}">
+                  data-target="#exampleModal{{$vendors[0]->vendor_id}}">
                   <i class="fa fa-trash"></i>
                 </button>
                 @endif
@@ -101,9 +103,9 @@
 <!-- /.container-fluid -->
 </div>
 </div>
-@foreach($vendor as $vendors)
+@foreach($vendor as $key => $vendors)
 <!-- Modal -->
-<div class="modal fade" id="exampleModal{{$vendors->vendor_id}}" tabindex="-1" role="dialog"
+<div class="modal fade" id="exampleModal{{$key}}" tabindex="-1" role="dialog"
   aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -118,7 +120,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <a href="{{route('delete-vendor', $vendors->vendor_id)}}" class="btn btn-primary">Delete</a>
+        <a href="{{route('delete-vendor', $key)}}" class="btn btn-primary">Delete</a>
       </div>
     </div>
   </div>

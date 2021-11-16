@@ -26,10 +26,13 @@ class vendorController extends Controller
         ->where('cityadmin_email', $cityadmin_email)
         ->first();
             $vendor= DB::table('vendor')
-                ->leftjoin('vendor_packages', 'vendor.vendor_id', '=', 'vendor_packages.vendor_id')
+                ->leftjoin('vendor_packages', function($q) {
+                    $q->on('vendor.vendor_id', '=', 'vendor_packages.vend_id')
+                        ->where('vendor_packages.status', '=', 'active');
+                })
         ->where('cityadmin_id', $cityadmin->cityadmin_id)
-        ->get();
-            dd($vendor);
+        ->get()->groupBy('vendor_id');
+
             return view('cityadmin.vendor.vendor', compact("cityadmin_email", "vendor", "cityadmin"));
         } else {
             return redirect()->route('cityadminlogin')->withErrors('please login first');
