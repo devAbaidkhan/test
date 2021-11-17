@@ -74,7 +74,7 @@ class PartnerPackageController extends Controller
         $pkg->status  = 'active';
         $pkg->activation_date  = Carbon::now();
         $pkg->save();
-        return redirect('franchise-admin/packages')->with(['msg'=>'Activated Successfully..']);
+        return redirect('franchise-admin/partner/packages/create')->with(['msg'=>'Activated Successfully..']);
 
     }
 

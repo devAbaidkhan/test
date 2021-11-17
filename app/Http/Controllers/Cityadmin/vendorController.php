@@ -30,8 +30,11 @@ class vendorController extends Controller
                     $q->on('vendor.vendor_id', '=', 'vendor_packages.vend_id')
                         ->where('vendor_packages.status', '=', 'active');
                 })
+                ->leftjoin('packages','vendor_packages.id', '=', 'packages.id')
         ->where('cityadmin_id', $cityadmin->cityadmin_id)
         ->get()->groupBy('vendor_id');
+
+
 
             return view('cityadmin.vendor.vendor', compact("cityadmin_email", "vendor", "cityadmin"));
         } else {
@@ -205,7 +208,7 @@ class vendorController extends Controller
 
                 if (isset($request->package)){
                     $pkg = new VendorPackage();
-                    $pkg->vendor_id = $insert;
+                    $pkg->vend_id = $insert;
                     $pkg->package_id = $request->package;
                     $pkg->status  = 'active';
                     $pkg->activation_date  = Carbon::now();
