@@ -56,16 +56,16 @@ class CountryPackagesController extends Controller
     public function store(Request $request)
     {
 
-
         $this->validate($request, [
             'name' => 'required',
             'type' => 'required',
+            'subscription_type' => 'required',
             'order_quantity' => 'required',
-            'days' => 'required',
             'price' => 'required_if:type,subscription',
             'commission' => 'required_if:type,commission',
             'price' => 'required_if:type,commission_subscription',
             'commission' => 'required_if:type,commission_subscription',
+            'days' => 'required_if:subscription_type,days',
             'dinein' => 'required',
             'delivery' => 'required',
             'take_away' => 'required',
@@ -89,7 +89,11 @@ class CountryPackagesController extends Controller
             $pkg->commission = $request->commission;
         }
 
-        $pkg->days = $request->days;
+
+        $pkg->subscription_type = $request->subscription_type;
+        if ( $request->subscription_type == 'days' ){
+            $pkg->days =  $request->days;
+        }
         $pkg->dinein = $request->dinein;
         $pkg->delivery = $request->delivery;
         $pkg->take_away = $request->take_away;
@@ -149,15 +153,17 @@ class CountryPackagesController extends Controller
     public function update(Request $request, $id)
     {
 
+
         $this->validate($request, [
             'name' => 'required',
             'type' => 'required',
+            'subscription_type' => 'required',
             'order_quantity' => 'required',
-            'days' => 'required',
             'price' => 'required_if:type,subscription',
             'commission' => 'required_if:type,commission',
             'price' => 'required_if:type,commission_subscription',
             'commission' => 'required_if:type,commission_subscription',
+            'days' => 'required_if:subscription_type,days',
             'dinein' => 'required',
             'delivery' => 'required',
             'take_away' => 'required',
@@ -176,8 +182,12 @@ class CountryPackagesController extends Controller
             $pkg->price = $request->price;
             $pkg->commission = $request->commission;
         }
-
-        $pkg->days = $request->days;
+        $pkg->subscription_type = $request->subscription_type;
+        if ( $request->subscription_type == 'days' ){
+            $pkg->days =  $request->days;
+        }else{
+            $pkg->days =  null;
+        }
         $pkg->dinein = $request->dinein;
         $pkg->delivery = $request->delivery;
         $pkg->take_away = $request->take_away;

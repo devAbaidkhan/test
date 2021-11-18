@@ -1,7 +1,7 @@
 @extends('cityadmin.layout.app')
 @push('css')
   <style>
-    /* The container */
+
     .container {
       display: block;
       position: relative;
@@ -15,8 +15,72 @@
       user-select: none;
     }
 
-    /* Hide the browser's default checkbox */
+    /* Hide the browser's default radio button */
     .container input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    /* Create a custom radio button */
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 25px;
+      width: 25px;
+      background-color: #eee;
+      border-radius: 50%;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .container:hover input ~ .checkmark {
+      background-color: #ccc;
+    }
+
+    /* When the radio button is checked, add a blue background */
+    .container input:checked ~ .checkmark {
+      background-color: #2196F3;
+    }
+
+    /* Create the indicator (the dot/circle - hidden when not checked) */
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    /* Show the indicator (dot/circle) when checked */
+    .container input:checked ~ .checkmark:after {
+      display: block;
+    }
+
+    /* Style the indicator (dot/circle) */
+    .container .checkmark:after {
+      top: 9px;
+      left: 9px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    /* The container */
+    .container-checkbox {
+      display: block;
+      position: relative;
+      padding-left: 35px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 22px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* Hide the browser's default checkbox */
+    .container-checkbox input {
       position: absolute;
       opacity: 0;
       cursor: pointer;
@@ -25,7 +89,7 @@
     }
 
     /* Create a custom checkbox */
-    .checkmark {
+    .checkmark-checkbox {
       position: absolute;
       top: 0;
       left: 0;
@@ -35,29 +99,29 @@
     }
 
     /* On mouse-over, add a grey background color */
-    .container:hover input ~ .checkmark {
+    .container-checkbox:hover input ~ .checkmark-checkbox {
       background-color: #ccc;
     }
 
     /* When the checkbox is checked, add a blue background */
-    .container input:checked ~ .checkmark {
+    .container-checkbox input:checked ~ .checkmark-checkbox {
       background-color: #2196F3;
     }
 
-    /* Create the checkmark/indicator (hidden when not checked) */
-    .checkmark:after {
+    /* Create the checkmark-checkbox/indicator (hidden when not checked) */
+    .checkmark-checkbox:after {
       content: "";
       position: absolute;
       display: none;
     }
 
-    /* Show the checkmark when checked */
-    .container input:checked ~ .checkmark:after {
+    /* Show the checkmark-checkbox when checked */
+    .container-checkbox input:checked ~ .checkmark-checkbox:after {
       display: block;
     }
 
-    /* Style the checkmark/indicator */
-    .container .checkmark:after {
+    /* Style the checkmark-checkbox/indicator */
+    .container-checkbox .checkmark-checkbox:after {
       left: 9px;
       top: 5px;
       width: 5px;
@@ -80,7 +144,6 @@
   <div class="row">
     <div class="col-md-2">
     </div>
-
     <div class="col-md-8 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
@@ -121,55 +184,73 @@
             </div>
 
               <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label for="order_quantity">Orders Quantity</label>
                   <input type="number" required min="0" class="form-control" id="order_quantity" name="order_quantity"
                          placeholder="Enter Order Quantity">
                 </div>
               </div>
-
-                <div class="col-md-6">
-                <div class="form-group">
-                  <label for="days">Days Limit</label>
-                  <input type="number" required  min="0" class="form-control" id="days" name="days"
-                         placeholder="Enter Days">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="number" disabled required min="0" class="form-control" id="price" name="price"
+                           placeholder="Enter Price">
+                  </div>
                 </div>
-              </div>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="price">Commission %</label>
+                    <input type="number" disabled required min="0" class="form-control" id="commission" name="commission"
+                           placeholder="Enter %">
+                  </div>
+                </div>
+
+{{--                <div class="col-md-6">--}}
+{{--                <div class="form-group">--}}
+{{--                  <label for="days">Days Limit</label>--}}
+{{--                  <input type="number" required  min="0" class="form-control" id="days" name="days"--}}
+{{--                         placeholder="Enter Days">--}}
+{{--                </div>--}}
+{{--              </div>--}}
             </div>
             <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="price">Price</label>
-                  <input type="number" disabled required min="0" class="form-control" id="price" name="price"
-                         placeholder="Enter Price">
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="price">Commission %</label>
-                  <input type="number" disabled required min="0" class="form-control" id="commission" name="commission"
-                         placeholder="Enter %">
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <label for="">Services</label>
-                <label class="container">Delivery
+                <label class="container-checkbox">Delivery
                   <input name="delivery" type="checkbox">
-                  <span class="checkmark"></span>
+                  <span class="checkmark-checkbox"></span>
                 </label>
-                <label class="container">Dine In
+                <label class="container-checkbox">Dine In
                   <input name="dinein" type="checkbox" >
-                  <span class="checkmark"></span>
+                  <span class="checkmark-checkbox"></span>
                 </label>
-                <label class="container">Take Away
+                <label class="container-checkbox">Take Away
                   <input name="take_away" type="checkbox">
+                  <span class="checkmark-checkbox"></span>
+                </label>
+              </div>
+              <div class="col-md-4">
+                <label for="">Subscription Type</label>
+                <label class="container">Days
+                  <input type="radio" class="subscription_type" value="days" checked="checked" name="subscription_type">
                   <span class="checkmark"></span>
                 </label>
+                <label class="container">Monthly
+                  <input type="radio" class="subscription_type" value="monthly" checked="checked" name="subscription_type">
+                  <span class="checkmark"></span>
+                </label>
+                <label class="container">Unlimited
+                  <input type="radio" class="subscription_type" value="unlimited" name="subscription_type">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+
+              <div class="col-md-4 days-div">
+                <label for="days">Package Days</label>
+                <input type="number" required min="0" class="form-control" id="days" name="days"
+                       placeholder="Enter Days">
               </div>
 
             </div>
@@ -208,6 +289,7 @@
 <script>
   $(document).ready(function () {
     $('.select2').select2();
+    $('.days-div').hide();
 
     $('form').on('submit',function (){
 
@@ -222,6 +304,19 @@
           $(this).val(0)
         }
       });
+    });
+
+    $('.subscription_type').on('click',function (){
+
+      let value = $(this).val();
+      if(value === 'days'){
+        $('.days-div').show();
+        $('#days').prop('required',true);
+      }else {
+        $('.days-div').hide();
+        $('#days').prop('required',false);
+      }
+
     });
 
     $('#type').on('change',function (){

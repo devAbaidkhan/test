@@ -43,8 +43,8 @@
                 <th>Delivery</th>
                 <th>Dine In</th>
                 <th>Take Away</th>
+                <th>Subscription Type</th>
                 <th>Price</th>
-                <th>Days</th>
                 <th>Commission</th>
                 <th>Action</th>
 
@@ -63,8 +63,8 @@
                   <td>{{($package->delivery == 0 ? 'N/A':' Allowed')}}</td>
                   <td>{{($package->dinein== 0 ? 'N/A':' Allowed')}}</td>
                   <td>{{($package->take_away == 0 ? 'N/A':' Allowed')}}</td>
+                  <td>{{strtoupper($package->subscription_type).(strtoupper($package->subscription_type)  == 'DAYS' ? ' | '.$package->days : '' )}}</td>
                   <td>{{($package->price > 0 ? $package->price:'N/A')}}</td>
-                  <td>{{$package->days}}</td>
                   <td>{{($package->commission ? $package->commission.'%':'N/A')}}</td>
                   <td>
 
