@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cityadmin;
 
+use App\Vendor;
 use App\VendorPackage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -31,8 +32,21 @@ class vendorController extends Controller
                         ->where('vendor_packages.status', '=', 'active');
                 })
                 ->leftjoin('packages','vendor_packages.id', '=', 'packages.id')
-        ->where('cityadmin_id', $cityadmin->cityadmin_id)
-        ->get()->groupBy('vendor_id');
+                ->select('vendor_name','owner','vendor_phone','vendor_email','vendor_logo','vendor_id','vend_id','name','type','orders_quantity','price')
+                ->where('cityadmin_id', $cityadmin->cityadmin_id)
+        ->get()->groupBy('vendor_id')->map(function ($vendor){
+                    if (count($vendor) == 1){
+                      if ($vendor[0]->vend_id == null){
+                          $vendor['status'] = 'not_active';
+                      }else{
+                          $vendor['status'] = 'active';
+                      }
+                    }else{
+                        $vendor['status'] = 'active';
+                    }
+                    return $vendor;
+                });
+
 
 
 
@@ -75,6 +89,7 @@ class vendorController extends Controller
     
     public function AddNewvendor(Request $request)
     {
+
         $this->validate($request, [
                'vendor_name' => 'required',
                'owner_name' => 'required',

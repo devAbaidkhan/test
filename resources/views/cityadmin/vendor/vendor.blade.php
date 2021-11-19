@@ -44,6 +44,7 @@
               <th>Mobile</th>
               <th>Email</th>
               <th>Active Packages</th>
+              <th>Status</th>
               <th>logo</th>
               <th>Action</th>
             </tr>
@@ -59,9 +60,14 @@
               <td>{{$vendors[0]->owner}}</td>
               <td>{{$vendors[0]->vendor_phone}}</td>
               <td>{{$vendors[0]->vendor_email}}</td>
-              <td class="text-center" > <span style="cursor: pointer" class="badge badge-{{(count($vendors->where('vend_id','!=',null)) == 0 ? 'warning':'primary ')}} package" vendors="{{json_encode($vendors)}}">
+              <td class="text-center" >
+                <span
+                        style="cursor: pointer"
+                        class="badge badge-{{(count($vendors->where('vend_id','!=',null)) == 0 ? 'warning':'primary ')}} package"
+                        vendors="{{json_encode($vendors)}}">
                   {{count($vendors->where('vend_id','!=',null))}}
                 </span> </td>
+              <td align="center">{{strtoupper($vendors['status'])}}</td>
               <td align="center"><img src="{{asset($vendors[0]->vendor_logo)}}" style="width: 21px;"></td>
               <td>
                 @if(permission('partner-secret-login'))
@@ -126,6 +132,7 @@
               <th>Type</th>
               <th>Orders</th>
               <th>Price</th>
+
               <th>Action</th>
 
             </tr>

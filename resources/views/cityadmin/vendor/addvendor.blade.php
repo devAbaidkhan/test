@@ -99,7 +99,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="exampleFormControlSelect3">Partner Category</label>
-                    <select class="form-control form-control-sm" id="exampleFormControlSelect3 " name="vendor_category_id">
+                    <select class="form-control form-control-sm" required id="exampleFormControlSelect3 " name="vendor_category_id">
                       @foreach($vendor_category as $category)
                         <option value="{{$category->vendor_category_id}}">{{$category->category_name}}</option>
                       @endforeach
@@ -109,8 +109,8 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label for="exampleFormControlSelect3">Available Packages</label>
-                  <select class="form-control form-control-sm" required id="package " name="package">
+                  <label for="exampleFormControlSelect3">Package (optional)</label>
+                  <select class="form-control form-control-sm"  id="package " name="package">
                     <option selected disabled value="">-Select One-</option>
                     @foreach($packages as $package)
                       <option value="{{$package->id}}">{{$package->name}}</option>
