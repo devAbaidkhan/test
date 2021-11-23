@@ -234,17 +234,17 @@
               <div class="col-md-4">
                 <label for="">Subscription Type</label>
                 <label class="container">Days
-                  <input type="radio" class="subscription_type" value="days" checked="checked" name="subscription_type">
+                  <input type="radio" class="subscription_type" required value="days"  name="subscription_type">
                   <span class="checkmark"></span>
                 </label>
-                <label class="container">Monthly
-                  <input type="radio" class="subscription_type" value="monthly" checked="checked" name="subscription_type">
-                  <span class="checkmark"></span>
-                </label>
-                <label class="container">Unlimited
-                  <input type="radio" class="subscription_type" value="unlimited" name="subscription_type">
-                  <span class="checkmark"></span>
-                </label>
+{{--                <label class="container">Monthly--}}
+{{--                  <input type="radio" class="subscription_type" disabled value="monthly" name="subscription_type">--}}
+{{--                  <span class="checkmark"></span>--}}
+{{--                </label>--}}
+{{--                <label class="container">Unlimited--}}
+{{--                  <input type="radio" class="subscription_type" disabled value="unlimited" name="subscription_type">--}}
+{{--                  <span class="checkmark"></span>--}}
+{{--                </label>--}}
               </div>
 
               <div class="col-md-4 days-div">
