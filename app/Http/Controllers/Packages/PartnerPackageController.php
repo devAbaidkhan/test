@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Packages;
 
 use App\VendorPackage;
+use App\Package;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -67,12 +68,13 @@ class PartnerPackageController extends Controller
             'partner' => 'required',
             'package' => 'required',
         ]);
-
         $pkg = new VendorPackage();
         $pkg->vend_id = $request->partner;
         $pkg->package_id = $request->package;
         $pkg->status  = 'active';
         $pkg->activation_date  = Carbon::now();
+        $pkg->expiry_date  = Carbon::now()->addDays(Package::find($request->package)->days);
+        $pkg->days  = Package::find($request->package)->days;
         $pkg->save();
         return redirect('franchise-admin/partner/packages/create')->with(['msg'=>'Activated Successfully..']);
 
