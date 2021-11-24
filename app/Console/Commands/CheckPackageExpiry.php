@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\VendorPackage;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -38,33 +40,24 @@ class CheckPackageExpiry extends Command
      */
     public function handle()
     {
-        if (Session::has('cityadmin')) {
-            $cityadmin_email=Session::get('cityadmin');
-            $cityadmin=DB::table('cityadmin')
-                ->where('cityadmin_email', $cityadmin_email)
-                ->first();
-            $vendor= DB::table('vendor')
-                ->leftjoin('vendor_packages', function($q) {
-                    $q->on('vendor.vendor_id', '=', 'vendor_packages.vend_id')
-                        ->where('vendor_packages.status', '=', 'active');
-                })
-                ->leftjoin('packages','vendor_packages.id', '=', 'packages.id')
-                ->select('vendor_name','owner','vendor_phone','vendor_email','vendor_logo','vendor_id','vend_id','name','type','orders_quantity','price')
-                ->where('cityadmin_id', $cityadmin->cityadmin_id)
-                ->get()->groupBy('vendor_id')->map(function ($vendor){
-                    if (count($vendor) == 1){
-                        if ($vendor[0]->vend_id == null){
-                            $vendor['status'] = 'not_active';
-                        }else{
-                            $vendor['status'] = 'active';
-                        }
-                    }else{
-                        $vendor['status'] = 'active';
-                    }
-                    return $vendor;
-                });
+        $pkgs= DB::table('vendor_packages')
+            ->where('status','active')
+            ->leftjoin('packages','vendor_packages.package_id','=','packages.id')
+            ->select(
+                'vendor_packages.created_at as pkg_date',
+                'packages.days',
+                'vendor_packages.id as pkg_id'
+            )
+            ->get();
 
-
+        foreach ($pkgs as $pkg){
+            $pkg_date = Carbon::parse($pkg->pkg_date)->addDays($pkg->days)->toDateString();
+            $today = Carbon::now()->toDateString();
+            if ($pkg_date == $today ){
+                $package = VendorPackage::find($pkg->pkg_id);
+                $package->status = 'expire';
+                $package->save();
+            }
         }
     }
 }

@@ -242,14 +242,14 @@
                     <input type="radio" {{$package->subscription_type == 'days' ? 'checked':''}} class="subscription_type" value="days" name="subscription_type">
                     <span class="checkmark"></span>
                   </label>
-                  <label class="container">Monthly
-                    <input type="radio" {{$package->subscription_type == 'monthly' ? 'checked':''}}  class="subscription_type"  value="monthly" name="subscription_type">
-                    <span class="checkmark"></span>
-                  </label>
-                  <label class="container">Unlimited
-                    <input type="radio" {{$package->subscription_type == 'unlimited' ? 'checked':''}}  class="subscription_type" value="unlimited" name="subscription_type">
-                    <span class="checkmark"></span>
-                  </label>
+{{--                  <label class="container">Monthly--}}
+{{--                    <input type="radio" {{$package->subscription_type == 'monthly' ? 'checked':''}}  class="subscription_type"  value="monthly" name="subscription_type">--}}
+{{--                    <span class="checkmark"></span>--}}
+{{--                  </label>--}}
+{{--                  <label class="container">Unlimited--}}
+{{--                    <input type="radio" {{$package->subscription_type == 'unlimited' ? 'checked':''}}  class="subscription_type" value="unlimited" name="subscription_type">--}}
+{{--                    <span class="checkmark"></span>--}}
+{{--                  </label>--}}
                 </div>
 
                 <div class="col-md-4 days-div" style="display: {{($package->days >  0 ? 'block': 'none')}} " >

@@ -20,7 +20,6 @@ class vendorController extends Controller
     use SendSms;
     public function vendor(Request $request)
     {
-
         if (Session::has('cityadmin')) {
             $cityadmin_email=Session::get('cityadmin');
             $cityadmin=DB::table('cityadmin')
@@ -58,7 +57,6 @@ class vendorController extends Controller
     
     public function Addvendor(Request $request)
     {
-
         if (Session::has('cityadmin')) {
             $cityadmin_email=Session::get('cityadmin');
             $cityadmin=DB::table('cityadmin')
@@ -89,7 +87,6 @@ class vendorController extends Controller
     
     public function AddNewvendor(Request $request)
     {
-
         $this->validate($request, [
                'vendor_name' => 'required',
                'owner_name' => 'required',
@@ -106,9 +103,6 @@ class vendorController extends Controller
                
 
            ]);
-
-
-
         if (Session::has('cityadmin')) {
             $logo = DB::table('logo')
                 ->where('logo_id', '1')
