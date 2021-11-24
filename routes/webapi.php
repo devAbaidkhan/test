@@ -3,6 +3,15 @@
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix'=>'api','namespace'=>'Api'], function () {
+
+
+
+    //================================ Chat ============================================
+
+    Route::get('/dp-send-msg', 'Chat\ChatController@dp_send_msg');
+    //================================ End Chat ============================================
+
+
     Route::post('/login-check', 'LoginController@index');
       Route::post('/app-login', 'LoginController@Login');
       Route::post('/app-register', 'LoginController@Register');
