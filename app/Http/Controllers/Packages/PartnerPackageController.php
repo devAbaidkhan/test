@@ -64,17 +64,21 @@ class PartnerPackageController extends Controller
     public function store(Request $request)
     {
 
+        $date = Carbon::now()->format('Y-m-d');
+
         $this->validate($request, [
             'partner' => 'required',
             'package' => 'required',
         ]);
+        $package = Package::find($request->package);
         $pkg = new VendorPackage();
         $pkg->vend_id = $request->partner;
         $pkg->package_id = $request->package;
         $pkg->status  = 'active';
         $pkg->activation_date  = Carbon::now();
-        $pkg->expiry_date  = Carbon::now()->addDays(Package::find($request->package)->days);
-        $pkg->days  = Package::find($request->package)->days;
+        $pkg->expiry_date  = Carbon::parse($date)->addDays($package->days)->format('Y-m-d');
+        $pkg->days  = $package->days;
+        $pkg->orders_quantity  = $package->orders_quantity;
         $pkg->save();
         return redirect('franchise-admin/partner/packages/create')->with(['msg'=>'Activated Successfully..']);
 
