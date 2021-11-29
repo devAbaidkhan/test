@@ -133,7 +133,7 @@
               <th>Orders</th>
               <th>Price</th>
 
-              <th>Action</th>
+              <th>Expiry Date</th>
 
             </tr>
             </thead>
@@ -196,7 +196,8 @@
                     '<td>'+package.type+'</td>' +
                     '<td>'+package.orders_quantity+'</td>' +
                     '<td>'+package.price+'</td>' +
-                    '<td>   <button type="button" style="width: 28px; padding-left: 6px;" class="btn btn-danger"  > <i class="fa fa-trash"></i> </button></td>' +
+                    '<td>'+package.expiry_date+'</td>' +
+                    // '<td>   <button type="button" style="width: 28px; padding-left: 6px;" class="btn btn-danger"  > <i class="fa fa-trash"></i> </button></td>' +
                     '</tr>')
           }
         })

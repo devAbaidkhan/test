@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cityadmin;
 
+use App\Package;
 use App\Vendor;
 use App\VendorPackage;
 use Carbon\Carbon;
@@ -31,7 +32,7 @@ class vendorController extends Controller
                         ->where('vendor_packages.status', '=', 'active');
                 })
                 ->leftjoin('packages','vendor_packages.package_id', '=', 'packages.id')
-                ->select('vendor_name','owner','vendor_phone','vendor_email','vendor_logo','vendor_id','vend_id','name','type','packages.orders_quantity','price')
+                ->select('vendor_packages.expiry_date','vendor_name','owner','vendor_phone','vendor_email','vendor_logo','vendor_id','vend_id','name','type','packages.orders_quantity','price')
                 ->where('cityadmin_id', $cityadmin->cityadmin_id)
         ->get()->groupBy('vendor_id')->map(function ($vendor){
                     if (count($vendor) == 1){
@@ -62,7 +63,7 @@ class vendorController extends Controller
             $cityadmin=DB::table('cityadmin')
         ->where('cityadmin_email', $cityadmin_email)
         ->first();
-            $packages= DB::table('packages')->where('country',$cityadmin->country)->orderBy('id','desc')->paginate(10);
+            $packages= DB::table('packages')->where('country',$cityadmin->country)->orderBy('id','desc')->get();
 
             $vendor_category = DB::table('vendor_category')
                             ->get();
@@ -167,8 +168,7 @@ class vendorController extends Controller
                // $vendor_image->move('partners/images/'.$date.'/', $fileName);
                // decode the base64 file
                $file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->vendor_image));
-               //todo :  remove this comment in live
-//               file_put_contents('partners/images/'. $fileName, $file);
+               file_put_contents('partners/images/'. $fileName, $file);
               
                 $vendor_image = 'partners/images/'.$fileName;
             } else {
@@ -181,7 +181,7 @@ class vendorController extends Controller
                // $main_image->move('partners/images/'.$date.'/', $fileName);
                
                $file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->main_image));
-//               file_put_contents('partners/images/'. $fileName, $file);
+               file_put_contents('partners/images/'. $fileName, $file);
                 $main_image = 'partners/images/'.$fileName;
             } else {
                 $main_image=null;
@@ -215,13 +215,22 @@ class vendorController extends Controller
                       'avg_cost_meal'=>$request->avg_cost_meal
                   ]);
 
+                $date1 = Carbon::now()->format('Y-m-d');
+                $package = Package::find($request->package);
                 if (isset($request->package)){
                     $pkg = new VendorPackage();
                     $pkg->vend_id = $insert;
                     $pkg->package_id = $request->package;
                     $pkg->status  = 'active';
                     $pkg->activation_date  = Carbon::now();
+                    $pkg->expiry_date  = Carbon::parse($date1)->addDays($package->days)->format('Y-m-d');
+                    $pkg->days  = $package->days;
+                    $pkg->orders_quantity  = $package->orders_quantity;
                     $pkg->save();
+
+                     DB::table('vendor')
+                        ->where('vendor_id', $insert)
+                        ->update(['status'=>1]);
                 }
     
                 $time = DB::table('time_slot')->insert(['vendor_id'=>$insert,'open_hour'=>$opening_time,'close_hour'=>$closing_time,'time_slot'=>60]);

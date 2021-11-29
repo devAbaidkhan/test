@@ -96,7 +96,7 @@
             <!--       </div>-->
 
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <div class="form-group">
                     <label for="exampleFormControlSelect3">Partner Category</label>
                     <select class="form-control form-control-sm" required id="exampleFormControlSelect3 " name="vendor_category_id">
@@ -108,17 +108,17 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <label for="exampleFormControlSelect3">Package (optional)</label>
-                  <select class="form-control form-control-sm"  id="package " name="package">
-                    <option selected disabled value="">-Select One-</option>
-                    @foreach($packages as $package)
-                      <option value="{{$package->id}}">{{$package->name}}</option>
-                    @endforeach
+{{--                <div class="col-md-6">--}}
+{{--                  <label for="exampleFormControlSelect3">Package (optional)</label>--}}
+{{--                  <select class="form-control form-control-sm"  id="package " name="package">--}}
+{{--                    <option selected disabled value="">-Select One-</option>--}}
+{{--                    @foreach($packages as $package)--}}
+{{--                      <option value="{{$package->id}}">{{$package->name}}</option>--}}
+{{--                    @endforeach--}}
 
 
-                  </select>
-                </div>
+{{--                  </select>--}}
+{{--                </div>--}}
               </div>
 
             <div class="form-group">

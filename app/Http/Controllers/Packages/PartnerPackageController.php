@@ -70,6 +70,11 @@ class PartnerPackageController extends Controller
             'partner' => 'required',
             'package' => 'required',
         ]);
+
+        DB::table('vendor')
+            ->where('vendor_id',$request->partner)
+            ->update(['status' => 1]);
+
         $package = Package::find($request->package);
         $pkg = new VendorPackage();
         $pkg->vend_id = $request->partner;

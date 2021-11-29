@@ -1,5 +1,7 @@
 <?php
 
+Route::get('test-code','TestController@test');
+
 /*
 //* Admin Routes
 */
