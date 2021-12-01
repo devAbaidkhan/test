@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 class ChatController extends Controller
 {
     public function dp_send_msg($FCMToken, $FCMMessage, $FCMTitle){
+//    public function dp_send_msg(){
 
 
     $url = 'https://fcm.googleapis.com/fcm/send';
@@ -33,8 +34,11 @@ class ChatController extends Controller
     curl_setopt ( $ch, CURLOPT_POSTFIELDS, $fields );
 
     $result = curl_exec ( $ch );
-    echo $result;
+
     curl_close ( $ch );
+
+        print_r($result);
+    exit();
 
     }
 }

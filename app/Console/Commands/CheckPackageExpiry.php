@@ -55,7 +55,7 @@ class CheckPackageExpiry extends Command
 
             $pkg_date = Carbon::parse($pkg->expiry_date)->toDateString();
             $today = Carbon::now()->toDateString();
-            if ($pkg_date == $today ){
+            if ($pkg_date <= $today ){
                 $package = VendorPackage::find($pkg->pkg_id);
                 $package->status = 'expire';
                 $package->save();

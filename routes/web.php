@@ -5,6 +5,7 @@ Route::get('test-code','TestController@test');
 /*
 //* Admin Routes
 */
+Route::get('test-code','TestController@test');
 require __DIR__.'/admin.php';
 
 

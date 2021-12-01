@@ -8,7 +8,7 @@ Route::group(['prefix'=>'api','namespace'=>'Api'], function () {
 
     //================================ Chat ============================================
 
-    Route::get('/dp-send-msg', 'Chat\ChatController@dp_send_msg');
+    Route::post('/dp-send-msg/{FCMToken}/{FCMMessage}/{FCMTitle}', 'Chat\ChatController@dp_send_msg');
     //================================ End Chat ============================================
 
 
