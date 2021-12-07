@@ -12,12 +12,10 @@ class ChatController extends Controller
     public function dp_send_msg(Request $request){
 
 
-
-
         $validator = Validator::make($request->all(), [
-            'email' => 'required',
-            'user_type' => 'required',
+            'email' => 'required|email',
             'api_key' => 'required',
+            'user_type' => 'required',
             'dm_id' => 'required',
             'msg' => 'required',
             'title' => 'required',
@@ -33,25 +31,39 @@ class ChatController extends Controller
             return response()->json(['status'=>'failed','message'=>'Invalid Api Key']);
         }
 
+        $dp = DB::table('vendor')
+            ->where('vendor_email',$request->email)
+            ->first();
+
+
+
+
+        if( !$dp){
+            return response()->json(['status'=>'failed','message'=>'DP dose not Exist']);
+        }
+        $dm = DB::table('vendor')
+            ->where('vendor_id',$request->dm_id)
+            ->first();
+        if( !$dm){
+            return response()->json(['status'=>'failed','message'=>'DM dose not Exist']);
+        }
+
+
+        $dm = json_decode(json_encode($dm),true);
+//        $dp = json_decode(json_encode($dp),true);
 
 
 
             try {
-                $dp = DB::table('vendor')
-                    ->where('vendor_email',$request->email)
-                    ->first();
-
-                $dm = DB::table('vendor')
-                    ->where('vendor_id',$request->dm_id)
-                    ->first();
 
 
-                 ;
+
+
+
 
                 $url = 'https://fcm.googleapis.com/fcm/send';
-
                 $fields = array(
-                    'registration_ids' => array($dm->fcm_tocken),
+                    'registration_ids' => array($dm['fcm_token']),
                     'data' => array("message" => $request->msg, "title" => $request->title)
                 );
 
@@ -83,7 +95,7 @@ class ChatController extends Controller
             }catch (\Exception $e){
                 return response()->json(['status'=>'failed','message'=>$e->getMessage()]);
             }
-        
+
 
     }
 }
