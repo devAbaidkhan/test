@@ -7,7 +7,11 @@ Route::group(['namespace'=>'Resturant', 'prefix'=>'restaurant',], function () {
     Route::post('/checkresturantLogin', 'RestaurantLoginController@checkresturantLogin')->name('checkresturantLogin');
 });
     Route::group(['namespace'=>'Resturant', 'prefix'=>'restaurant','middleware'=>'session.check'], function () {
-        
+
+
+        //chat
+
+
 
 
         Route::get('index', 'HomeController@vendorIndex')->name('resturant-index');

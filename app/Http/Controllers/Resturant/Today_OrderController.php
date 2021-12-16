@@ -97,11 +97,17 @@ class Today_OrderController extends Controller
                 $nestedData['created_at'] = date("d-M-Y h:i:s a",strtotime($row->created_at)) ;
                 $ordrid=$row->id;
                 $link=route("order_restaurant_detail", ["ordrid"=>$ordrid]);
-    
                 $csrf=csrf_token();
+
+                if ( strtolower($row->order_status) == 'pending'){
+                $chat = '<a href='.url("restaurant/chat/".$ordrid).'><i class="fa fa-comments fa-lg text-primary"></i></a>';
+            }else{
+                    $chat = '';
+                }
+
                 $nestedData['options'] = "
 			<a href='$link' title='Edit' class='edit_data mr-2' style='font-size: 18px'><i class='fa fa-edit'></i></a>
-			";
+			".$chat;
                 $data[] = $nestedData;
             }
         }

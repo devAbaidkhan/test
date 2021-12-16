@@ -13,6 +13,7 @@ class HomeController extends Controller
     
     public function vendorIndex(Request $request)
         {
+
         $created_at = Carbon::Now();    
      if(Session::has('vendor'))
      {
@@ -78,7 +79,8 @@ class HomeController extends Controller
     	                    
         return view('resturant.index', compact("vendor_email", "vendor"));
          
-           
+
+
      }
 	else
 	 {

@@ -10,11 +10,28 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            	<h1 class="page-header mb-3">
-				Hi, {{$vendor->owner}}. <small>here's what's happening with your store today.</small>
-			</h1>
-          </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="page-header mb-3">
+                            Hi, {{$vendor->owner}}. <small>here's what's happening with your store today.</small>
+
+                        </h1>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="col-6 text-center">
+                        <a href="{{url('')}}">
+                            <div class="width-50 height-50 bg-primary-transparent-2 rounded-circle d-flex align-items-center justify-content-center mb-2 ml-auto mr-auto">
+                                <i class="fa fa-comments fa-lg text-primary"></i>
+                            </div>
+                            <div class="font-weight-600 text-dark"></div>
+                            <div class="fs-13px">Active Chat</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
 
           <!-- BEGIN row -->
             <div class="row">
