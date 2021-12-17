@@ -44,6 +44,7 @@
 	<script src="{{url('assets/plugins/apexcharts/dist/apexcharts.min.js')}}"></script>
 	<script src="{{url('assets/js/demo/dashboard.demo.js')}}"></script>
 	<!-- ================== END page-js ================== -->
+	@yield('js')
 </body>
 <script>
 $(document).ready(function () {

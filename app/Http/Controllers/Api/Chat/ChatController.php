@@ -56,7 +56,7 @@ class ChatController extends Controller
                 $url = 'https://fcm.googleapis.com/fcm/send';
                 $fields = array(
                     'registration_ids' => array($dm['fcm_token']),
-                    'data' => array("message" => json_encode(['sender_id'=> $request->sender_id,'sender_type'=> 'dp','receiver_id'=>$request->receiver_id,'msg'=>$request->msg]), "title" => '@chat')
+                    'data' => array("message" => $request->msg, "title" => '@chat')
                 );
 
 
@@ -135,6 +135,46 @@ class ChatController extends Controller
                 $fields = array(
                     'registration_ids' => array($dp['fcm_token']),
                     'data' => array("message" => json_encode(['sender_id'=> $request->sender_id,'sender_type'=> 'dm','receiver_id'=>$request->receiver_id,'msg'=>$request->msg]), "title" => '@chat')
+                );
+
+
+                $fields = json_encode($fields);
+
+                $headers = array(
+                    'Authorization: key=' . "AAAAdRgzpFE:APA91bHP6jzHKWwOGbSZRDAk3ENZUG6LYahZ6pGkAgJZTArm3a5jBgITeWdLenjGTU9rK1n2tkulcSJddi5N4q8_b6DfrjTcvX9MotjafBWWdBXarnyWY0xP1es_0Mq67zGStUBmSJ-w",
+                    'Content-Type: application/json'
+                );
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+
+                $result = curl_exec($ch);
+
+                curl_close($ch);
+
+                return response()->json(['status'=>'success','title'=>'@chat','message'=>$result]);
+
+            }catch (\Exception $e){
+                return response()->json(['status'=>'failed','message'=>$e->getMessage()]);
+            }
+
+
+    }
+
+    public function send_msg_test(Request $request){
+
+
+
+            try {
+
+                $url = 'https://fcm.googleapis.com/fcm/send';
+                $fields = array(
+                    'registration_ids' => array('dGkKNcvuuPi-zjmcDaSYRA:APA91bHfjdQQfMQYV4W7gMoYDUQjJNOyqWy8YL3SjPz9vuAxfP8CqGcEfE72L3MdG0gY1_uQlh9OpCIqPHxixBZU6khp_rJoSMjcV60N6j3dw__NcLlSidwPZF-x8X6fzaLg35NpeZs4'),
+                    'data' => array("message" => 'Hello', "title" => '@chat')
                 );
 
 

@@ -6,6 +6,7 @@ Route::get('test-code','TestController@test');
 //* Admin Routes
 */
 Route::get('test-code','TestController@test');
+Route::get('fcm', 'Chat\RestaurantChatController@create');
 Route::get('restaurant/chat/{order_id}', 'Chat\RestaurantChatController@index')->name('restaurant-chat');
 require __DIR__.'/admin.php';
 

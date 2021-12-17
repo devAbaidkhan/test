@@ -195,119 +195,26 @@
               </div>
               <div class="col-md-12 px-0">
                 <div class="ans-chat-panel">
-                  <div class="row">
-                    <div class="col-lg-3 col-md-6 col-10">
-                      <div class="ans-chat-bubble ans-chat-bubble--left">
-                        Hello dude!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 offset-lg-9 col-md-6 offset-md-6 offset-2 col-10">
-                      <div class="ans-chat-bubble ans-chat-bubble--right">
+                    <table class="table">
+                        <tbody>
+                        <tr>Hello</tr>
+                        </tbody>
 
-                        Hello dude!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 offset-lg-9 col-md-6 offset-md-6 offset-2 col-10">
-                      <div class="ans-chat-bubble ans-chat-bubble--right">
-                        Hello dude!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-6 col-10">
-                      <div class="ans-chat-bubble ans-chat-bubble--left">
-                        Hello dude!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-6 col-10">
-                      <div class="ans-chat-bubble ans-chat-bubble--left">
-                        Hello dude!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-6 col-10">
-                      <div class="ans-chat-bubble ans-chat-bubble--left">
-                        Hello dude!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-6 col-10">
-                      <div class="ans-chat-bubble ans-chat-bubble--left">
-                        Hello dude!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-6 col-10">
-                      <div class="ans-chat-bubble ans-chat-bubble--left">
-                        Hello dude!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-6 col-10">
-                      <div class="ans-chat-bubble ans-chat-bubble--left">
-                        Hello dude!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-6 col-10">
-                      <div class="ans-chat-bubble ans-chat-bubble--left">
-                        Hello dude!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-6 col-10">
-                      <div class="ans-chat-bubble ans-chat-bubble--left">
-                        Hello dude!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 offset-lg-9 col-md-6 offset-md-6 offset-2 col-10">
-                      <div class="ans-chat-bubble ans-chat-bubble--right">
-                        Hello dude!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 offset-lg-9 col-md-6 offset-md-6 offset-2 col-10">
-                      <div class="ans-chat-bubble ans-chat-bubble--right">
-                        Hello dude!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 offset-lg-9 col-md-6 offset-md-6 offset-2 col-10">
-                      <div class="ans-chat-bubble ans-chat-bubble--right">
-                        Hello dude!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 offset-lg-9 col-md-6 offset-md-6 offset-2 col-10">
-                      <div class="ans-chat-bubble ans-chat-bubble--right">
-                        Hello dude!
-                      </div>
-                    </div>
-                  </div>
+                    </table>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                      <div class="ans-chat-box-tray">
-                        <input type="ans-text" placeholder="Type your message here..." value="" class="ans-input-filed">
-                        <i class="ans-material-icons fa fa-paper-plane ans-chat-send-btn"></i>
-                      </div>
+                        <form action="" id="form_send_msg">
+                            <div class="ans-chat-box-tray">
+                                <input type="hidden"  name="sender_type" id="sender_type" value= "dp" >
+                                <input type="hidden"  name="api_key" id="api_key" value= "api.dedo.club.105118.com" >
+                                <input type="hidden"  name="receiver_id" id="receiver_id" value="{{$order->user_id}}" >
+                                <input type="hidden"  name="sender_id" id="sender_id" value="{{$order->vendor_id}}" >
+                                <input type="ans-text" name="msg" placeholder="Type your message here..." id="value_msg" value="" class="ans-input-filed">
+                                <button class="btn btn-sm" type="submit" id="btn_send_msg"><i class="ans-material-icons fa fa-paper-plane ans-chat-send-btn" ></i></button>
+                            </div>
+                        </form>
+
                     </div>
                   </div>
               </div>
@@ -319,4 +226,64 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.16.0/sweetalert2.min.js"
         integrity="sha512-jJHgrGWRvOyyVt4TghrM7L+HSb02QkXJPPBJhDIkiqEzUYWBKe76GVVsZggmjZWOmsPwS0WSPIvyUGZzJta8kg=="
         crossorigin="anonymous"></script>
+@endsection
+@section('js')
+    <script type="module">
+
+    </script>
+    <script>
+
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyBNn0rdU0nS21DFChR36VCGxSf6R7-Otzg",
+            authDomain: "dedo-partner.firebaseapp.com",
+            projectId: "dedo-partner",
+            storageBucket: "dedo-partner.appspot.com",
+            messagingSenderId: "502917211217",
+            appId: "1:502917211217:web:fee919a237ca06be628470",
+            measurementId: "G-900GSQDPB1"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        $(document).ready(function (){
+
+
+
+
+            $('#form_send_msg').on('submit',function (e){
+                e.preventDefault();
+                let msg = $('#value_msg').val().trim()
+                if(msg){
+                    $.ajax({
+                        type: 'POST',
+                        url:  "{{url('api/send-msg-to-dm')}}",
+                        data: new FormData(this),
+                        contentType: false,
+                        data_type: 'json',
+                        cache: false,
+                        processData: false,
+                        success: function (response) {
+                           console.log(response)
+                        },
+                        error: function (response) {
+                            console.log(response)
+                        }
+                    });
+                }else {
+                    alert('Please Enter Message Text')
+                }
+
+            })
+        })
+    </script>
 @endsection

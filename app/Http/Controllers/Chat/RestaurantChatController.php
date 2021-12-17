@@ -16,8 +16,8 @@ class RestaurantChatController extends Controller
     public function index(Request $request)
     {
         $order = Order::find($request->order_id);
-        dd($order);
-        return view('chat.restaurant.support-chat');
+
+        return view('chat.restaurant.support-chat',get_defined_vars());
     }
 
     /**
@@ -27,7 +27,7 @@ class RestaurantChatController extends Controller
      */
     public function create()
     {
-        //
+        return view('chat.dp.firebase');
     }
 
     /**

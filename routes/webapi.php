@@ -6,6 +6,7 @@ Route::group(['prefix'=>'api','namespace'=>'Api'], function () {
     //================================ Chat ============================================
     Route::post('/send-msg-to-dm', 'Chat\ChatController@send_msg_to_dm');
     Route::post('/send-msg-to-dp', 'Chat\ChatController@send_msg_to_dp');
+    Route::post('/send-msg-to-test', 'Chat\ChatController@send_msg_test');
     //================================ End Chat ============================================
     Route::post('/login-check', 'LoginController@index');
       Route::post('/app-login', 'LoginController@Login');
